@@ -32,6 +32,7 @@ Thumbs.db
 
 # Output artifacts
 *.html
+!example_json_input.html
 *.png
 *.pdf
 spectrum.json

@@ -267,3 +267,80 @@ class SpectrumAnalyzer:
 
         Path(output_html).write_text(html, encoding="utf-8")
         print(f"HTML file generated: {output_html}")
+
+    def save_html_local(self, output_html):
+        if self.result_json is None:
+            raise ValueError("You must run generate_json() first.")
+
+        # Embed JSON directly in the HTML
+        embedded_json = json.dumps(self.result_json, indent=2)
+
+        html = f"""<!DOCTYPE html>
+    <html>
+    <head>
+    <meta charset="utf-8">
+    <title>Interactive Spectrum Viewer</title>
+    <script src="d3.v3.min.js"></script>
+    <script src="SpectrumChartD3.js"></script>
+    <link rel="stylesheet" href="SpectrumChartD3.css">
+    <link rel="stylesheet" href="SpectrumChartD3StandAlone.css">
+    <style>
+        body {{ font-family: sans-serif; margin: 100px; }}
+        .chart {{ width: 80%; height: 0vh; }}
+    </style>
+    </head>
+    <body onload="init()">
+
+    <div id="chart1" class="chart" oncontextmenu="return false;" style="margin-left: auto; margin-right: auto; min-height: 100px;"></div>
+
+    <!-- (Options Panel omitted for brevity) -->
+
+    <script>
+    function init() {{
+    var spectrum_data = {embedded_json};
+    var chart_data = {{ "spectra": spectrum_data }};
+
+    var linecolors = ["black", "blue", "red"];
+    for (var i = 0; i < chart_data.spectra.length; i++) {{
+        chart_data.spectra[i].lineColor = linecolors[i % linecolors.length];
+    }}
+
+    for (var i = 1; i < chart_data.spectra.length; i++) {{
+        chart_data.spectra[i].yScaleFactor = chart_data.spectra[i].liveTime / chart_data.spectra[0].liveTime;
+    }}
+
+    var chart_options = {{
+        title: "Gamma Spectrum Viewer",
+        xlabel: "Energy (keV)",
+        ylabel: "Counts",
+        logYFracTop: 0.5,
+        logYFracBottom: 0.1,
+        logYAxisMin: 0.1
+    }};
+
+    graph = new SpectrumChartD3("chart1", chart_options);
+    graph.setData(chart_data);
+    graph.setLogY();  
+    graph.setGridX(true);
+    graph.setGridY(true);
+
+    const handleResize = function(){{
+        const chart = document.getElementById('chart1');
+        chart.style.width = (0.90 * window.innerWidth) + "px";
+        chart.style.height = Math.min(0.75 * window.innerWidth, 0.75 * window.innerHeight) + "px";
+        graph.handleResize();
+    }};
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+    }}
+    </script>
+
+    <!-- Keep the interactivity script block here if needed -->
+
+    </body>
+    </html>
+    """
+
+        Path(output_html).write_text(html, encoding="utf-8")
+        print(f"Standalone HTML file saved: {output_html}")
