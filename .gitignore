@@ -1,0 +1,39 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*.so
+*.pyd
+*.dll
+
+# Build system
+build/
+dist/
+*.egg-info/
+
+# Virtual environments
+venv/
+.env/
+*.venv/
+SpecUtils/
+
+# SpecUtils build outputs (wheel or copied folders)
+SpecUtils/build/
+SpecUtils/bindings/python/*.egg-info/
+SpecUtils/bindings/python/build/
+SpecUtils/bindings/python/dist/
+
+# Logs and system
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode/
+
+# Output artifacts
+*.html
+*.png
+*.pdf
+spectrum.json
+spectrum.html

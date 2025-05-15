@@ -1,0 +1,22 @@
+[project]
+name = "spectrumlib"
+version = "0.1.0"
+description = "Gamma spectrum analysis from .n42 and Interspec CSV files"
+authors = [
+    { name = "MB" }
+]
+license = { text = "MIT" }
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "pandas",
+    "numpy",
+    "matplotlib",
+    "plotly"
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project.scripts]
+process-spectrum = "scripts.process_spectrum:main"
