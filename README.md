@@ -15,7 +15,7 @@ It lets you:
 
 ---
 
-## 🔧 Installation
+## Installation
 
 This project depends on [`SandiaSpecUtils`](https://github.com/sandialabs/SpecUtils), which must be **built from source**.
 
@@ -34,3 +34,7 @@ pip install .
 cd  /project/path
 pip install -r requirements.txt
 pip install -e .
+## Use:
+python3 src/scripts/test.py  
+process-spectrum data/summed_background.n42 data/Peaks_summed_background.CSV
+
